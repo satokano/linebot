@@ -133,3 +133,26 @@ REST_FRAMEWORK = {
         ]
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'loggers': {
+        'linecallbacklogger': {
+            'handlers': ['herokuconsole'],
+            'level': 'INFO',
+        },
+    },
+    'handlers': {
+        'herokuconsole': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+            'stream': sys.stdout,
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[%(levelname)s] %(asctime)s %(module)s %(funcName)s %(lineno)s %(message)s'
+        },
+    },
+}
