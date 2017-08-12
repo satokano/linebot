@@ -157,3 +157,8 @@ LOGGING = {
         },
     },
 }
+
+# Linebot secret and accesstoken
+CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET', None)
+CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
+
