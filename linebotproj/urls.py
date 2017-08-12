@@ -21,5 +21,6 @@ from kabaobot import funcviews
 urlpatterns = [
     url(r'^kabaobotadmin/', admin.site.urls),
     url(r'^func/hello$', funcviews.hello_world, name='hello'),
+    url(r'^func/linecallback$', funcviews.linecallback, name='linecallback'),
     url(r'^restapi/', include(kabaobot_router.urls)),
 ]

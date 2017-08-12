@@ -7,3 +7,8 @@ from rest_framework.response import Response
 def hello_world(request):
     return Response({"message": "Hello, World!"})
 
+@api_view(('GET','POST',))
+@permission_classes((permissions.AllowAny,))
+def linecallback(request):
+    return Response("OK")
+
