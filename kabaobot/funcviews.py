@@ -6,7 +6,7 @@ import logging
 import json
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, FollowEvent, UnfollowEvent, JoinEvent, LeaveEvent, PostbackEvnet, BeaconEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, FollowEvent, UnfollowEvent, JoinEvent, LeaveEvent, PostbackEvent, BeaconEvent, TextMessage, TextSendMessage
 
 line_bot_api = LineBotApi(settings.CHANNEL_ACCESS_TOKEN)
 whhandler = WebhookHandler(settings.CHANNEL_SECRET)
