@@ -6,7 +6,7 @@ import logging
 import json
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, FollowEvent, UnfollowEvent, JoinEvent, LeaveEvent, PostbackEvnet, BeaconEvent, TextMessage, TextSendMessage
 
 line_bot_api = LineBotApi(settings.CHANNEL_ACCESS_TOKEN)
 whhandler = WebhookHandler(settings.CHANNEL_SECRET)
@@ -33,6 +33,7 @@ def linecallback(request):
             whhandler.handle(body_unicode, signature)
         except InvalidSignatureError as ise:
             logger.error("[LC] InvalidSignatureError")
+            # LINE以外からと考えられるのでOK以外のレスポンスでもよいかも
             raise # rethrow
 
     except Exception as ee:
@@ -47,4 +48,57 @@ def message_text(event):
     logger.info("[LC] start handling TextMessage")
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
     logger.info("[LC] end handling TextMessage")
+
+@whhandler.add(MessageEvent, message=ImageMessage)
+def message_image(event):
+    logger.info()
+
+@whhandler.add(MessageEvent, message=VideoMessage)
+def message_video(event):
+    logger.info()
+
+@whhandler.add(MessageEvent, message=AudioMessage)
+def message_audio(event):
+    logger.info()
+
+# PythonのSDKにFileMessageが存在しない気がする
+# https://github.com/line/line-bot-sdk-python/blob/master/linebot/models/messages.py
+#@whhandler.add(MessageEvent, message=FileMessage)
+def message_file(event):
+    logger.info()
+
+@whhandler.add(MessageEvent, message=LocationMessage)
+def message_location(event):
+    logger.info()
+
+@whhandler.add(MessageEvent, message=StickerMessage)
+def message_sticker(event):
+    logger.info()
+
+@whhandler.add(FollowEvent)
+def follow(event):
+    logger.info("[LC] follow event")
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="フォローありがとうございます"))
+
+@whhandler.add(UnfollowEvent)
+def unfollow(event):
+    logger.info("[LC] unfollow event")
+
+@whhandler.add(JoinEvent)
+def join(event):
+    logger.info("[LC] join event")
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="こんにちは"))
+
+@whhandler.add(LeaveEvent)
+def leave(event):
+    logger.info("[LC] leave event")
+
+@whhandler.add(PostbackEvent)
+def postback(event):
+    logger.info("[LC] postback event")
+
+@whhandler.add(BeaconEvent)
+def beacon(event):
+    logger.info("[LC] beacon event")
+
 
