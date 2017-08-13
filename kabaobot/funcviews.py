@@ -60,11 +60,12 @@ def message_image(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像きた " + event.message.id))
 
     message_content = line_bot_api.get_message_content(event.message.id)
-    with tempfile.TemporaryFile() as fd:
+    with tempfile.NamedTemporaryFile(delete=False) as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
         fd.seek(0)
-        result = cloudinary.uploader.upload(fd)
+        logger.info("[LC] temporary file name: " + fd.name)
+        result = cloudinary.uploader.upload(fd.name)
         logger.info(result['url'])
 
     logger.info("[LC] end handling ImageMessage")
