@@ -4,6 +4,7 @@ from rest_framework import permissions
 from rest_framework.response import Response
 import logging
 import json
+import tempfile
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, FollowEvent, UnfollowEvent, JoinEvent, LeaveEvent, PostbackEvent, BeaconEvent, TextMessage, ImageMessage, VideoMessage, AudioMessage, LocationMessage, StickerMessage, TextSendMessage
@@ -53,7 +54,15 @@ def message_text(event):
 def message_image(event):
     logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] start handling ImageMessage")
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像ありがとう"))
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像きた " + event.message.id))
+
+    message_content = line_bot_api.get_message_content(event.message.id)
+    with tempfile.TemporaryFile() as fd:
+        for chunk in message_content.iter_content():
+            fd.write(chunk)
+            fd.seek(0)
+            #cloudinary.uploader.upload(fd)
+
     logger.info("[LC] end handling ImageMessage")
 
 @whhandler.add(MessageEvent, message=VideoMessage)
