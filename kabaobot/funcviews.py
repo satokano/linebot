@@ -51,18 +51,21 @@ def message_text(event):
 
 @whhandler.add(MessageEvent, message=ImageMessage)
 def message_image(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] start handling ImageMessage")
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像ありがとう"))
     logger.info("[LC] end handling ImageMessage")
 
 @whhandler.add(MessageEvent, message=VideoMessage)
 def message_video(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] start handling VideoMessage")
     line_bot_api.reply_message(event.reply_token, TextMessage(text="動画ありがとう"))
     logger.info("[LC] end handling VideoMessage")
 
 @whhandler.add(MessageEvent, message=AudioMessage)
 def message_audio(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] start handling AudioMessage")
     line_bot_api.reply_message(event.reply_token, TextMessage(text="音声ありがとう"))
     logger.info("[LC] end handling AudioMessage")
@@ -71,44 +74,52 @@ def message_audio(event):
 # https://github.com/line/line-bot-sdk-python/blob/master/linebot/models/messages.py
 #@whhandler.add(MessageEvent, message=FileMessage)
 def message_file(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] FileMessage")
 
 @whhandler.add(MessageEvent, message=LocationMessage)
 def message_location(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] start handling LocationMessage")
     line_bot_api.reply_message(event.reply_token, TextMessage(text="そんなところに"))
     logger.info("[LC] end handling LocationMessage")
 
 @whhandler.add(MessageEvent, message=StickerMessage)
 def message_sticker(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] start handling StickerMessage")
     line_bot_api.reply_message(event.reply_token, TextMessage(text="(´・ω・｀)"))
     logger.info("[LC] end handling StickerMessage")
 
 @whhandler.add(FollowEvent)
 def follow(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] follow event")
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="フォローありがとうございます"))
 
 @whhandler.add(UnfollowEvent)
 def unfollow(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] unfollow event")
 
 @whhandler.add(JoinEvent)
 def join(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] join event")
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="こんにちは"))
 
 @whhandler.add(LeaveEvent)
 def leave(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] leave event")
 
 @whhandler.add(PostbackEvent)
 def postback(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] postback event")
 
 @whhandler.add(BeaconEvent)
 def beacon(event):
+    logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] beacon event")
-
 
