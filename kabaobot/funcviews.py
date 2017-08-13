@@ -22,7 +22,7 @@ cognitive_headers = {
     'Ocp-Apim-Subscription-Key': cognitive_subscription_key,
 }
 cognitive_params = urllib.parse.urlencode({
-    'visualFeatures': 'Categories,Description',
+    'visualFeatures': 'Categories,Tags,Description,Faces,Adult',
     'language': 'en',
 })
 
