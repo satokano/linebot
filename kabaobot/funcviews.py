@@ -5,6 +5,7 @@ from rest_framework.response import Response
 import logging
 import json
 import tempfile
+import http.client, urllib.request, urllib.parse, urllib.error, base64
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, FollowEvent, UnfollowEvent, JoinEvent, LeaveEvent, PostbackEvent, BeaconEvent, TextMessage, ImageMessage, VideoMessage, AudioMessage, LocationMessage, StickerMessage, TextSendMessage
@@ -14,6 +15,16 @@ import cloudinary.api
 
 line_bot_api = LineBotApi(settings.CHANNEL_ACCESS_TOKEN)
 whhandler = WebhookHandler(settings.CHANNEL_SECRET)
+cognitive_subscription_key = settings.COGNITIVE_SUBSCRIPTION_KEY
+cognitive_uri_base = 'westcentralus.api.cognitive.microsoft.com'
+cognitive_headers = {
+    'Content-Type': 'application/json',
+    'Ocp-Apim-Subscription-Key': congnitive_subscription_key,
+}
+cognitive_params = urllib.parse.urlencode({
+    'visualFeatures': 'Categories,Description',
+    'language': 'en',
+})
 
 @api_view(('GET',))
 @permission_classes((permissions.AllowAny,))
@@ -58,17 +69,30 @@ def message_image(event):
     logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] start handling ImageMessage")
     #line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像きた " + event.message.id))
-
+    result = ""
+    cognitive_result = ""
     message_content = line_bot_api.get_message_content(event.message.id)
     with tempfile.NamedTemporaryFile(delete=False) as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
         fd.seek(0)
-        logger.info("[LC] temporary file name: " + fd.name)
+        #logger.info("[LC] temporary file name: " + fd.name)
         result = cloudinary.uploader.upload(fd.name)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像どうも " + result['url']))
-        logger.info(result['url'])
 
+    logger.info(result['url'])
+
+    try:
+        cognitive_body = "{'url': '%s'}" % result['url']
+        conn = http.client.HTTPSConnection(cognitive_uri_base)
+        conn.request("POST", "/vision/v1.0/analyze?%s" % cognitive_params, cognitive_body, cognitive_headers)
+        response = conn.getresponse()
+        data = response.read()
+        parsed = json.loads(data)
+        cognitive_result = json.dumps(parsed, sort_keys=True, indent=2)
+    except Exception as e:
+        logger.exception("[LC] MS Cognitive Service API Error::")
+
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像どうも " + result['url'] + "\n" + cognitive_result))
     logger.info("[LC] end handling ImageMessage")
 
 @whhandler.add(MessageEvent, message=VideoMessage)
