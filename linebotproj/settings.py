@@ -169,4 +169,6 @@ cloudinary.config(
     api_key = os.getenv('CLOUDINARY_API_KEY', None),
     api_secret = os.getenv('CLOUDINARY_API_SECRET', None),
 )
+# Microsoft Computer Vision API
+COGNITIVE_SUBSCRIPTION_KEY = os.getenv('COGNITIVE_SUBSCRIPTION_KEY', None)
 
