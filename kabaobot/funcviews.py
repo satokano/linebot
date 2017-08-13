@@ -63,9 +63,9 @@ def message_image(event):
     with tempfile.TemporaryFile() as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
-            fd.seek(0)
-            result = cloudinary.uploader.upload(fd)
-            logger.info(result['url'])
+        fd.seek(0)
+        result = cloudinary.uploader.upload(fd)
+        logger.info(result['url'])
 
     logger.info("[LC] end handling ImageMessage")
 
