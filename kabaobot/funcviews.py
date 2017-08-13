@@ -8,6 +8,9 @@ import tempfile
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, FollowEvent, UnfollowEvent, JoinEvent, LeaveEvent, PostbackEvent, BeaconEvent, TextMessage, ImageMessage, VideoMessage, AudioMessage, LocationMessage, StickerMessage, TextSendMessage
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 line_bot_api = LineBotApi(settings.CHANNEL_ACCESS_TOKEN)
 whhandler = WebhookHandler(settings.CHANNEL_SECRET)
@@ -61,7 +64,8 @@ def message_image(event):
         for chunk in message_content.iter_content():
             fd.write(chunk)
             fd.seek(0)
-            #cloudinary.uploader.upload(fd)
+            result = cloudinary.uploader.upload(fd)
+            logger.info(result['url'])
 
     logger.info("[LC] end handling ImageMessage")
 
