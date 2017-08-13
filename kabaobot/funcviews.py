@@ -57,7 +57,7 @@ def message_text(event):
 def message_image(event):
     logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] start handling ImageMessage")
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像きた " + event.message.id))
+    #line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像きた " + event.message.id))
 
     message_content = line_bot_api.get_message_content(event.message.id)
     with tempfile.NamedTemporaryFile(delete=False) as fd:
@@ -66,6 +66,7 @@ def message_image(event):
         fd.seek(0)
         logger.info("[LC] temporary file name: " + fd.name)
         result = cloudinary.uploader.upload(fd.name)
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像どうも " + result['url']))
         logger.info(result['url'])
 
     logger.info("[LC] end handling ImageMessage")
