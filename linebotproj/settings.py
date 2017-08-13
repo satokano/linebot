@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import sys
 import dj_database_url
+import cloudinary
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -161,4 +162,11 @@ LOGGING = {
 # Linebot secret and accesstoken
 CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET', None)
 CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
+
+# Cloudinary
+cloudinary.config(
+    cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME', None)
+    api_key = os.getenv('CLOUDINARY_API_KEY', None)
+    api_secret = os.getenv('CLOUDINARY_API_SECRET', None)
+)
 
