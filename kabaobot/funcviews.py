@@ -19,7 +19,7 @@ cognitive_subscription_key = settings.COGNITIVE_SUBSCRIPTION_KEY
 cognitive_uri_base = 'westcentralus.api.cognitive.microsoft.com'
 cognitive_headers = {
     'Content-Type': 'application/json',
-    'Ocp-Apim-Subscription-Key': congnitive_subscription_key,
+    'Ocp-Apim-Subscription-Key': cognitive_subscription_key,
 }
 cognitive_params = urllib.parse.urlencode({
     'visualFeatures': 'Categories,Description',
