@@ -12,6 +12,7 @@ from linebot.models import MessageEvent, FollowEvent, UnfollowEvent, JoinEvent, 
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from .models import *
 
 line_bot_api = LineBotApi(settings.CHANNEL_ACCESS_TOKEN)
 whhandler = WebhookHandler(settings.CHANNEL_SECRET)
