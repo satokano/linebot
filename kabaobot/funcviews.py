@@ -134,7 +134,7 @@ def message_sticker(event):
         userId = src.user_id
         profile = line_bot_api.get_profile(userId)
         displayName = profile.display_name
-        lu = LineUser(user_id = profile.user_id, display_name = profile.display_name, picture_url = profile.picture.url, status_message = profile.status_message)
+        lu = LineUser(user_id = profile.user_id, display_name = profile.display_name, picture_url = profile.picture_url, status_message = profile.status_message)
         logger.info(lu)
         lu.save
 
