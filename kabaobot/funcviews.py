@@ -130,7 +130,7 @@ def message_sticker(event):
     src = event.source
     displayName = ""
     if src.type == "user":
-        userid = src.user_id
+        userId = src.user_id
         profile = line_bot_api.get_profile(userId)
         displayName = profile.display_name
         logger.info(profile.display_name)
