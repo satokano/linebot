@@ -130,7 +130,7 @@ def message_sticker(event):
     src = event.source
     displayName = ""
     if src.type == "user":
-        userid = src.userId
+        userid = src.user_Id
         profile = line_bot_api.get_profile(userId)
         displayName = profile.display_name
         logger.info(profile.display_name)
@@ -139,15 +139,15 @@ def message_sticker(event):
         logger.info(profile.status_message)
 
     elif src.type == "group":
-        groupId = src.groupId
-        userId = src.userId
+        groupId = src.group_Id
+        userId = src.user_Id
         if userId:
             profile = line_bot_api.get_profile(userId)
             displayName = profile.display_name
 
     elif src.type == "room":
-        roomId = src.roomId
-        userId = src.userId
+        roomId = src.room_Id
+        userId = src.user_Id
         if userId:
             profile = line_bot_api.get_profile(userId)
             displayName = profile.display_name
