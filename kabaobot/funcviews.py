@@ -127,7 +127,32 @@ def message_location(event):
 def message_sticker(event):
     logger = logging.getLogger('linecallbacklogger')
     logger.info("[LC] start handling StickerMessage")
-    line_bot_api.reply_message(event.reply_token, TextMessage(text="(´・ω・｀)"))
+    src = event.source
+    displayName = ""
+    if src.type == "user":
+        userid = src.userId
+        profile = line_bot_api.get_profile(userId)
+        displayName = profile.display_name
+        logger.info(profile.display_name)
+        logger.info(profile.user_id)
+        logger.info(profile.picture_url)
+        logger.info(profile.status_message)
+
+    elif src.type == "group":
+        groupId = src.groupId
+        userId = src.userId
+        if userId:
+            profile = line_bot_api.get_profile(userId)
+            displayName = profile.display_name
+
+    elif src.type == "room":
+        roomId = src.roomId
+        userId = src.userId
+        if userId:
+            profile = line_bot_api.get_profile(userId)
+            displayName = profile.display_name
+
+    line_bot_api.reply_message(event.reply_token, TextMessage(text="(´・ω・｀)＜" + displayName))
     logger.info("[LC] end handling StickerMessage")
 
 @whhandler.add(FollowEvent)
