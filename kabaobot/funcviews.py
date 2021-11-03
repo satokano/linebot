@@ -82,16 +82,17 @@ def message_image(event):
 
     logger.info(result['url'])
 
-    try:
-        cognitive_body = "{'url': '%s'}" % result['url']
-        conn = http.client.HTTPSConnection(cognitive_uri_base)
-        conn.request("POST", "/vision/v1.0/analyze?%s" % cognitive_params, cognitive_body, cognitive_headers)
-        response = conn.getresponse()
-        data = response.read()
-        parsed = json.loads(data)
-        cognitive_result = json.dumps(parsed, sort_keys=True, indent=2)
-    except Exception as e:
-        logger.exception("[LC] MS Cognitive Service API Error::")
+    # 2021/11/03 Cognitive Services APIの無料期間切れているので無効化
+#    try:
+#        cognitive_body = "{'url': '%s'}" % result['url']
+#        conn = http.client.HTTPSConnection(cognitive_uri_base)
+#        conn.request("POST", "/vision/v1.0/analyze?%s" % cognitive_params, cognitive_body, cognitive_headers)
+#        response = conn.getresponse()
+#        data = response.read()
+#        parsed = json.loads(data)
+#        cognitive_result = json.dumps(parsed, sort_keys=True, indent=2)
+#    except Exception as e:
+#        logger.exception("[LC] MS Cognitive Service API Error::")
 
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="画像どうも " + result['url'] + "\n" + cognitive_result))
     logger.info("[LC] end handling ImageMessage")
