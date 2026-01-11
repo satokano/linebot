@@ -1,4 +1,4 @@
-aiohttp==3.8.1
+aiohttp==3.13.3
 aiosignal==1.2.0
 async-timeout==4.0.2
 attrs==22.1.0
@@ -24,6 +24,6 @@ pytz==2022.2.1
 requests==2.28.1
 six==1.10.0
 sqlparse==0.4.2
-urllib3==1.26.5
+urllib3==2.6.3
 whitenoise==3.3.0
 yarl==1.8.1
